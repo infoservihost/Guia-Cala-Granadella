@@ -1,2 +1,2 @@
-# Gu-as-hu-sped
+# Guias-huesped
 Guías interactivas Smoobu
