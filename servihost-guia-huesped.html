@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Huésped · Servihost</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3d6b4f;
+    --green-light: #e8f0eb;
+    --green-mid: #c2d9c9;
+    --green-dark: #2a4d38;
+    --black: #1a1a1a;
+    --gray: #6b6b6b;
+    --gray-light: #f5f5f3;
+    --white: #ffffff;
+    --border: #e0e0dc;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--gray-light);
+    color: var(--black);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+  .logo-text {
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--green-dark);
+    letter-spacing: -0.3px;
+  }
+  .nav-badge {
+    font-size: 11px;
+    color: var(--gray);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--green-dark);
+    color: var(--white);
+    padding: 4rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.02);
+  }
+  .hero-inner { max-width: 700px; margin: 0 auto; position: relative; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+  }
+  .hero-property {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .date-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .date-chip span:first-child { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .date-chip span:last-child { color: var(--white); font-weight: 500; }
+
+  /* MAIN */
+  .main { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* SECTION TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1px;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 16px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gray);
+    cursor: pointer;
+    white-space: nowrap;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--black); }
+  .tab-btn.active {
+    color: var(--green-dark);
+    border-bottom-color: var(--green);
+    font-weight: 500;
+  }
+
+  /* SECTIONS */
+  .section-panel { display: none; animation: fadeIn 0.2s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  .card-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--black);
+    margin-bottom: 1.25rem;
+  }
+
+  /* CHECKIN */
+  .time-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .time-block {
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .time-block .label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .time-block .time {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--green-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .time-block .note { font-size: 12px; color: var(--green); font-weight: 300; }
+
+  .step-list { list-style: none; }
+  .step-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-body .step-title { font-size: 14px; font-weight: 500; color: var(--black); margin-bottom: 3px; }
+  .step-body .step-desc { font-size: 13px; color: var(--gray); line-height: 1.55; font-weight: 300; }
+  .step-body .step-addr {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* WIFI */
+  .wifi-block {
+    background: var(--gray-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .wifi-block:last-of-type { margin-bottom: 0; }
+  .wifi-info .net-name { font-size: 14px; font-weight: 500; color: var(--black); }
+  .wifi-info .net-pass { font-size: 13px; color: var(--gray); font-family: 'Courier New', monospace; margin-top: 2px; }
+  .copy-btn {
+    background: var(--green-dark);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: var(--green); }
+  .copy-btn.copied { background: #2e7d52; }
+  .wifi-note {
+    margin-top: 1rem;
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.5;
+    padding: 10px 14px;
+    border-left: 3px solid var(--green-mid);
+    background: var(--green-light);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* NORMAS */
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--black);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .rule-item:last-child { border-bottom: none; }
+  .rule-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .rule-text strong { font-weight: 500; color: var(--black); }
+  .rules-note {
+    margin-top: 1.25rem;
+    background: var(--green-light);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* PARKING */
+  .parking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  .parking-stat {
+    background: var(--green-light);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .parking-stat .pstat-val {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--green-dark);
+    font-weight: 400;
+  }
+  .parking-stat .pstat-label { font-size: 11px; color: var(--green); font-weight: 500; letter-spacing: 0.5px; }
+
+  /* MENSAJE */
+  .msg-wrapper {
+    background: var(--green-dark);
+    border-radius: 16px;
+    padding: 2rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .msg-from {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .msg-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.85);
+    font-weight: 300;
+  }
+  .msg-sign {
+    margin-top: 1.5rem;
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--white);
+    font-style: italic;
+  }
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-decoration: none;
+    color: var(--green-dark);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+    margin-top: 1rem;
+  }
+  .contact-btn:hover { background: var(--green-light); border-color: var(--green-mid); }
+
+  /* FOOTER */
+  footer {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  .footer-sub { font-size: 11px; color: var(--gray); font-weight: 300; }
+
+  /* RESPONSIVE */
+  @media (max-width: 480px) {
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .main { padding: 1.5rem 1rem 3rem; }
+    nav { padding: 0 1.25rem; }
+    .time-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://www.servihost.es">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="8" fill="#2a4d38"/>
+      <path d="M8 22 L16 10 L24 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M12 22 L12 17 L20 17 L20 22" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span class="logo-text">Servihost</span>
+  </a>
+  <span class="nav-badge">Guía del Huésped</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Bienvenida</div>
+    <h1>Hola, Carmen. <em>Bienvenida</em> a tu alojamiento.</h1>
+    <p class="hero-property">Pau Jávea · Villa Cala Granadella · Av. Tío Catalá 47, Jávea</p>
+    <div class="hero-dates">
+      <div class="date-chip">
+        <span>Entrada</span>
+        <span>Vie 05 Jun</span>
+      </div>
+      <div class="date-chip">
+        <span>Salida</span>
+        <span>Dom 07 Jun</span>
+      </div>
+      <div class="date-chip">
+        <span>Noches</span>
+        <span>2 noches</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('checkin', this)">Check-in / out</button>
+    <button class="tab-btn" onclick="showTab('wifi', this)">WiFi</button>
+    <button class="tab-btn" onclick="showTab('normas', this)">Normas</button>
+    <button class="tab-btn" onclick="showTab('parking', this)">Parking</button>
+    <button class="tab-btn" onclick="showTab('mensaje', this)">Bienvenida</button>
+  </div>
+
+  <!-- CHECKIN -->
+  <div id="tab-checkin" class="section-panel active">
+    <div class="card">
+      <div class="card-title">Horarios</div>
+      <div class="time-grid">
+        <div class="time-block">
+          <div class="label">Entrada</div>
+          <div class="time">15:00</div>
+          <div class="note">Check-in autónomo</div>
+        </div>
+        <div class="time-block">
+          <div class="label">Salida</div>
+          <div class="time">11:00</div>
+          <div class="note">Dejar llaves en cajetilla</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cómo acceder</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Recoge las llaves en la cajetilla</div>
+            <div class="step-desc">El código de apertura se enviará el mismo día de tu llegada. Dentro encontrarás las llaves y la documentación de acceso a la zona (necesaria en temporada de verano).</div>
+            <span class="step-addr">📍 Carr. de la Guardia, 126 · Jávea</span>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Dirígete al alojamiento</div>
+            <div class="step-desc">La casa está a unos 8 minutos desde la cajetilla.</div>
+            <span class="step-addr">📍 Av. del Tío Catalá 47 · 03730 Jávea</span>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Al salir, devuelve las llaves</div>
+            <div class="step-desc">Deposítalas en la misma cajetilla donde las recogiste. Muchas gracias por la colaboración.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- WIFI -->
+  <div id="tab-wifi" class="section-panel">
+    <div class="card">
+      <div class="card-title">Redes WiFi</div>
+      <div class="wifi-block">
+        <div class="wifi-info">
+          <div class="net-name">HOLAWIFI_22016</div>
+          <div class="net-pass">76897160</div>
+        </div>
+        <button class="copy-btn" onclick="copyWifi('HOLAWIFI_22016', '76897160', this)">Copiar</button>
+      </div>
+      <div class="wifi-block">
+        <div class="wifi-info">
+          <div class="net-name">HOLAWIFI_22016_5G</div>
+          <div class="net-pass">76897160</div>
+        </div>
+        <button class="copy-btn" onclick="copyWifi('HOLAWIFI_22016_5G', '76897160', this)">Copiar</button>
+      </div>
+      <p class="wifi-note">La red 5G ofrece mayor velocidad. Úsala si tu dispositivo es compatible.</p>
+    </div>
+  </div>
+
+  <!-- NORMAS -->
+  <div id="tab-normas" class="section-panel">
+    <div class="card">
+      <div class="card-title">Normas de la casa</div>
+      <div class="rule-item">
+        <div class="rule-icon">🚭</div>
+        <div class="rule-text"><strong>Prohibido fumar</strong> dentro del alojamiento. Solo se permite en la terraza.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🎉</div>
+        <div class="rule-text"><strong>Prohibido realizar fiestas o eventos</strong> en el alojamiento.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">👥</div>
+        <div class="rule-text">El <strong>número de huéspedes está limitado</strong> al indicado en la reserva.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🧹</div>
+        <div class="rule-text">Deja el alojamiento en buen estado. No hace falta limpieza profunda, pero sí <strong>recoger lo básico.</strong></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🗑️</div>
+        <div class="rule-text">Usa los <strong>contenedores cercanos</strong> para la basura y evita acumulaciones en el alojamiento.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🔇</div>
+        <div class="rule-text"><strong>Respeta el descanso vecinal.</strong> Mantén el ruido al mínimo durante las horas nocturnas.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🛠️</div>
+        <div class="rule-text">En caso de <strong>daños accidentales,</strong> se valorará si procede algún coste adicional.</div>
+      </div>
+      <div class="rules-note">¿Algo no queda claro? Escríbenos antes de tu llegada. Estamos para ayudarte y evitar cualquier malentendido.</div>
+    </div>
+  </div>
+
+  <!-- PARKING -->
+  <div id="tab-parking" class="section-panel">
+    <div class="card">
+      <div class="card-title">Parking privado</div>
+      <div class="parking-grid">
+        <div class="parking-stat">
+          <div class="pstat-val">4</div>
+          <div class="pstat-label">plazas</div>
+        </div>
+        <div class="parking-stat">
+          <div class="pstat-val">0€</div>
+          <div class="pstat-label">gratuito</div>
+        </div>
+      </div>
+      <div class="rule-item" style="border-bottom:1px solid var(--border);">
+        <div class="rule-icon">🔗</div>
+        <div class="rule-text">Al llegar encontrarás una <strong>cadena en el acceso.</strong> Quítala para entrar y recuerda colocarla al salir.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-icon">🪴</div>
+        <div class="rule-text">Aparca en la <strong>zona recta hacia la casa,</strong> delimitada con dos macetas como referencia.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAJE -->
+  <div id="tab-mensaje" class="section-panel">
+    <div class="msg-wrapper">
+      <div class="msg-from">Del equipo · Servihost</div>
+      <p class="msg-body">¡Hola, Carmen! Muchas gracias por reservar en nuestra fantástica casa. Estamos muy contentos de recibirte.<br><br>En esta guía encontrarás toda la información útil para tu estancia: acceso, normas, Wi-Fi y más. Si tienes cualquier duda antes de llegar, no dudes en escribirnos. ¡Te esperamos!</p>
+      <div class="msg-sign">Villa Cala Granadella</div>
+    </div>
+    <a class="contact-btn" href="https://wa.me/+34627191474?text=Hola,%20soy%20Carmen%20y%20tengo%20una%20pregunta%20sobre%20mi%20reserva." target="_blank">
+      💬 Contactar por WhatsApp
+    </a>
+    <a class="contact-btn" href="mailto:hola@servihost.es">
+      ✉️ hola@servihost.es
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Servihost</div>
+  <div class="footer-sub">Gestión integral de propiedades vacacionales · servihost.es</div>
+</footer>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function copyWifi(name, pass, btn) {
+    const text = name + '\nContraseña: ' + pass;
+    navigator.clipboard.writeText(text).catch(() => {});
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2500);
+  }
+</script>
+</body>
+</html>
